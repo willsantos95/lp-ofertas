@@ -19,6 +19,11 @@ const CTAButton = ({ className = "" }: { className?: string }) => (
     href={WHATSAPP_LINK}
     target="_blank"
     rel="noopener noreferrer"
+    onClick={() => {
+      if (window.fbq) {
+        window.fbq('trackCustom', 'CliqueWhatsApp');
+      }
+    }}
     className={`inline-flex flex-col items-center justify-center gradient-cta text-whatsapp-foreground font-black rounded-2xl shadow-cta animate-pulse-cta hover:scale-105 transition-transform px-6 py-4 text-lg sm:text-xl w-full ${className}`}
   >
     <span className="flex items-center gap-2">
