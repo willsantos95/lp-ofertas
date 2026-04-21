@@ -27,10 +27,10 @@ const CTAButton = ({ className = "" }: { className?: string }) => (
     className={`inline-flex flex-col items-center justify-center gradient-cta text-whatsapp-foreground font-black rounded-2xl shadow-cta animate-pulse-cta hover:scale-105 transition-transform px-6 py-4 text-lg sm:text-xl w-full ${className}`}
   >
     <span className="flex items-center gap-2">
-      GARANTIR MINHA VAGA 🚀
+      ENTRAR NO GRUPO VIP 🚀
     </span>
     <span className="text-xs font-medium opacity-90 mt-1">
-      Acesso imediato e gratuito
+     Aqui todo mundo é VIP
     </span>
   </a>
 );
