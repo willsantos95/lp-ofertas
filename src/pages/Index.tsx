@@ -4,7 +4,7 @@ import ProgressBar from "@/components/ProgressBar";
 
 // 🔧 ALTERE AQUI o link do seu grupo de WhatsApp
 const WHATSAPP_LINK =
-  "https://chat.whatsapp.com/BsKfVC2u8PTDazj6jMt4TS";
+  "https://link.relampagodeofertas.shop/FsbJ18";
 
 const benefits = [
   "Ofertas da Shopee, Amazon e Mercado Livre",
