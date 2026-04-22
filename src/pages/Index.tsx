@@ -1,10 +1,12 @@
+import { useEffect } from "react";
 import { Check, Zap, Gift, TrendingDown, Users, Shield } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 import ProgressBar from "@/components/ProgressBar";
 
-// 🔧 ALTERE AQUI o link do seu grupo de WhatsApp
-const WHATSAPP_LINK =
-  "https://link.relampagodeofertas.shop/FsbJ18";
+const GROUP_URL_WEB = "https://link.relampagodeofertas.shop/FsbJ18";
+const GROUP_CODE = "FsbJ18";
+const GROUP_URL_DEEP = `whatsapp://chat?code=${GROUP_CODE}`;
+const REDIRECT_DELAY = 3000;
 
 const benefits = [
   "Ofertas da Shopee, Amazon e Mercado Livre",
@@ -14,37 +16,71 @@ const benefits = [
   "Atualizações todos os dias",
 ];
 
+declare global {
+  interface Window {
+    fbq?: (...args: any[]) => void;
+  }
+}
+
+function isMobile() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function trackLead() {
+  if (typeof window.fbq !== "undefined") {
+    const eventId = `lead_${Date.now()}`;
+
+    window.fbq("track", "Lead", {}, { eventID: eventId });
+    window.fbq("trackCustom", "CliqueWhatsApp", { destination: "grupo_vip" });
+  }
+}
+
+function redirectToWhatsApp() {
+  trackLead();
+
+  if (isMobile()) {
+    window.location.href = GROUP_URL_DEEP;
+
+    setTimeout(() => {
+      window.location.href = GROUP_URL_WEB;
+    }, 1500);
+  } else {
+    window.location.href = GROUP_URL_WEB;
+  }
+}
+
 const CTAButton = ({ className = "" }: { className?: string }) => (
-  <a
-    href={WHATSAPP_LINK}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={() => {
-      if (window.fbq) {
-        window.fbq('trackCustom', 'CliqueWhatsApp');
-      }
-    }}
+  <button
+    type="button"
+    onClick={redirectToWhatsApp}
     className={`inline-flex flex-col items-center justify-center gradient-cta text-whatsapp-foreground font-black rounded-2xl shadow-cta animate-pulse-cta hover:scale-105 transition-transform px-6 py-4 text-lg sm:text-xl w-full ${className}`}
   >
     <span className="flex items-center gap-2">
       ENTRAR NO GRUPO VIP 🚀
     </span>
     <span className="text-xs font-medium opacity-90 mt-1">
-     Aqui todo mundo é VIP
+      Aqui todo mundo é VIP
     </span>
-  </a>
+  </button>
 );
 
 const Index = () => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      trackLead();
+      window.location.href = GROUP_URL_WEB;
+    }, REDIRECT_DELAY);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background pb-32 md:pb-12">
-      {/* Top alert bar */}
       <div className="bg-urgency text-urgency-foreground py-2 px-4 text-center text-xs sm:text-sm font-bold animate-blink-urgent">
         🚨 ÚLTIMAS VAGAS DISPONÍVEIS — ENTRE AGORA!
       </div>
 
       <main className="max-w-3xl mx-auto px-4 py-6 sm:py-10">
-        {/* Hero */}
         <section className="text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-highlight/20 text-highlight-foreground border-2 border-highlight rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold">
             <Zap className="h-4 w-4 fill-highlight" />
@@ -68,12 +104,10 @@ const Index = () => {
           </p>
         </section>
 
-        {/* Countdown */}
         <section className="mt-8 bg-card border-2 border-urgency/30 rounded-2xl p-5 sm:p-6 shadow-glow">
           <CountdownTimer />
         </section>
 
-        {/* Progress */}
         <section className="mt-6 bg-card border-2 border-border rounded-2xl p-5 sm:p-6">
           <ProgressBar />
           <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
@@ -82,7 +116,6 @@ const Index = () => {
           </p>
         </section>
 
-        {/* Mid CTA */}
         <section className="mt-6">
           <CTAButton />
           <p className="text-center text-xs text-urgency font-bold mt-3 animate-blink-urgent">
@@ -90,7 +123,6 @@ const Index = () => {
           </p>
         </section>
 
-        {/* Benefits */}
         <section className="mt-8">
           <h2 className="text-2xl sm:text-3xl font-black text-center mb-5">
             O que você vai receber:
@@ -107,7 +139,6 @@ const Index = () => {
           </ul>
         </section>
 
-        {/* Visual icons row */}
         <section className="mt-6 grid grid-cols-3 gap-3">
           <div className="bg-card border-2 border-border rounded-xl p-3 text-center">
             <TrendingDown className="h-6 w-6 mx-auto text-urgency" />
@@ -123,7 +154,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Main CTA (desktop visible) */}
         <section className="mt-8">
           <CTAButton />
           <p className="text-center text-xs text-urgency font-bold mt-3 animate-blink-urgent">
@@ -131,14 +161,12 @@ const Index = () => {
           </p>
         </section>
 
-        {/* Trust */}
         <section className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <Shield className="h-4 w-4" />
           <span>2026 Relâmpago de Ofertas - 100% gratuito</span>
         </section>
       </main>
 
-      {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur border-t-2 border-border p-3 shadow-2xl">
         <CTAButton />
       </div>
