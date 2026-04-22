@@ -47,8 +47,30 @@
     </noscript>
 
     <script>
-  setTimeout(function() {
-    window.location.href = "https://link.relampagodeofertas.shop/FsbJ18";
+  const GROUP_URL_WEB = "https://link.relampagodeofertas.shop/FsbJ18";
+  const GROUP_CODE = "120363423459629928@g.us";
+  const GROUP_URL_DEEP = "whatsapp://chat?code=" + GROUP_CODE;
+
+  function isMobile() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  setTimeout(() => {
+
+    if (isMobile()) {
+      // tenta abrir no app
+      window.location.href = GROUP_URL_DEEP;
+
+      // fallback caso não abra
+      setTimeout(() => {
+        window.location.href = GROUP_URL_WEB;
+      }, 1500);
+
+    } else {
+      // desktop
+      window.location.href = GROUP_URL_WEB;
+    }
+
   }, 3000);
 </script>
 
