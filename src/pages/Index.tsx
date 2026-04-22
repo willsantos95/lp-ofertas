@@ -6,7 +6,7 @@ import ProgressBar from "@/components/ProgressBar";
 const GROUP_URL_WEB = "https://link.relampagodeofertas.shop/FsbJ18";
 const GROUP_CODE = "FsbJ18";
 const GROUP_URL_DEEP = `whatsapp://chat?code=${GROUP_CODE}`;
-const REDIRECT_DELAY = 150000;
+const REDIRECT_DELAY = 2500;
 
 const benefits = [
   "Ofertas da Shopee, Amazon e Mercado Livre",
