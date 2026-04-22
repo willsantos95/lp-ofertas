@@ -1,174 +1,53 @@
-import { useEffect } from "react";
-import { Check, Zap, Gift, TrendingDown, Users, Shield } from "lucide-react";
-import CountdownTimer from "@/components/CountdownTimer";
-import ProgressBar from "@/components/ProgressBar";
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>🔥 Grupo VIP do Relâmpago de Ofertas</title>
+    <meta name="description" content="Entre no grupo gratuito do WhatsApp e receba ofertas com até 90% de desconto da Shopee, Amazon e Mercado Livre todos os dias. Vagas limitadas!" />
+    <meta name="author" content="Ofertas Relâmpago" />
 
-const GROUP_URL_WEB = "https://link.relampagodeofertas.shop/FsbJ18";
-const GROUP_CODE = "120363423459629928@g.us";
-const GROUP_URL_DEEP = `whatsapp://chat?code=${GROUP_CODE}`;
-const REDIRECT_DELAY = 2500;
+    <meta property="og:title" content="🔥 Grupo VIP do Relâmpago de Ofertas" />
+    <meta property="og:description" content="Ofertas exclusivas com até 90% de desconto direto no WhatsApp. Acesso gratuito por tempo limitado!" />
+    <meta property="og:type" content="website" />
 
-const benefits = [
-  "Ofertas da Shopee, Amazon e Mercado Livre",
-  "Cupons exclusivos",
-  "Promoções que acabam rápido",
-  "Produtos com até 90% de desconto",
-  "Atualizações todos os dias",
-];
+    <meta name="twitter:card" content="summary_large_image" />
 
-declare global {
-  interface Window {
-    fbq?: (...args: any[]) => void;
-  }
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-function isMobile() {
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1275839104093144');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+  </head>
 
-function trackLead() {
-  if (typeof window.fbq !== "undefined") {
-    const eventId = `lead_${Date.now()}`;
+  <body>
+    <div id="root"></div>
 
-    window.fbq("track", "Lead", {}, { eventID: eventId });
-    window.fbq("trackCustom", "CliqueWhatsApp", { destination: "grupo_vip" });
-  }
-}
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://www.facebook.com/tr?id=1275839104093144&ev=PageView&noscript=1"
+        alt=""
+      />
+    </noscript>
 
-function redirectToWhatsApp() {
-  trackLead();
+    
 
-  if (isMobile()) {
-    window.location.href = GROUP_URL_DEEP;
-
-    setTimeout(() => {
-      window.location.href = GROUP_URL_WEB;
-    }, 1500);
-  } else {
-    window.location.href = GROUP_URL_WEB;
-  }
-}
-
-const CTAButton = ({ className = "" }: { className?: string }) => (
-  <button
-    type="button"
-    onClick={redirectToWhatsApp}
-    className={`inline-flex flex-col items-center justify-center gradient-cta text-whatsapp-foreground font-black rounded-2xl shadow-cta animate-pulse-cta hover:scale-105 transition-transform px-6 py-4 text-lg sm:text-xl w-full ${className}`}
-  >
-    <span className="flex items-center gap-2">
-      ENTRAR NO GRUPO VIP 🚀
-    </span>
-    <span className="text-xs font-medium opacity-90 mt-1">
-      Aqui todo mundo é VIP
-    </span>
-  </button>
-);
-
-const Index = () => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      trackLead();
-      window.location.href = GROUP_URL_WEB;
-    }, REDIRECT_DELAY);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-background pb-32 md:pb-12">
-      <div className="bg-urgency text-urgency-foreground py-2 px-4 text-center text-xs sm:text-sm font-bold animate-blink-urgent">
-        🚨 ÚLTIMAS VAGAS DISPONÍVEIS — ENTRE AGORA!
-      </div>
-
-      <main className="max-w-3xl mx-auto px-4 py-6 sm:py-10">
-        <section className="text-center space-y-4">
-          <div className="inline-flex items-center gap-2 bg-highlight/20 text-highlight-foreground border-2 border-highlight rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold">
-            <Zap className="h-4 w-4 fill-highlight" />
-            GRUPO VIP GRATUITO
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-black leading-tight tracking-tight">
-            🔥 ENTRE AGORA NO{" "}
-            <span className="bg-gradient-to-r from-urgency via-orange-500 to-highlight bg-clip-text text-transparent">
-              GRUPO RELÂMPAGO
-            </span>{" "}
-            DE OFERTAS!
-          </h1>
-
-          <p className="text-base sm:text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-            Participe do grupo de forma <strong className="text-foreground">gratuita</strong> e receba ofertas com até{" "}
-            <span className="bg-highlight text-highlight-foreground px-2 py-0.5 rounded font-black">
-              90% de desconto
-            </span>{" "}
-            todos os dias!
-          </p>
-        </section>
-        <section className="mt-8">
-          <h2 className="text-2xl sm:text-3xl font-black text-center mb-5">
-            O que você vai receber:
-          </h2>
-          <ul className="space-y-3 bg-card border-2 border-border rounded-2xl p-5 sm:p-6">
-            {benefits.map((b) => (
-              <li key={b} className="flex items-start gap-3 text-base sm:text-lg font-medium">
-                <span className="flex-shrink-0 w-7 h-7 rounded-full bg-whatsapp text-whatsapp-foreground flex items-center justify-center mt-0.5">
-                  <Check className="h-4 w-4" strokeWidth={3} />
-                </span>
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="mt-6 grid grid-cols-3 gap-3">
-          <div className="bg-card border-2 border-border rounded-xl p-3 text-center">
-            <TrendingDown className="h-6 w-6 mx-auto text-urgency" />
-            <p className="text-[10px] sm:text-xs font-bold mt-1">ATÉ 90% OFF</p>
-          </div>
-          <div className="bg-card border-2 border-border rounded-xl p-3 text-center">
-            <Gift className="h-6 w-6 mx-auto text-highlight" />
-            <p className="text-[10px] sm:text-xs font-bold mt-1">CUPONS GRÁTIS</p>
-          </div>
-          <div className="bg-card border-2 border-border rounded-xl p-3 text-center">
-            <Zap className="h-6 w-6 mx-auto text-whatsapp" />
-            <p className="text-[10px] sm:text-xs font-bold mt-1">TEMPO REAL</p>
-          </div>
-        </section>
-
-
-        <section className="mt-6">
-          <CTAButton />
-          <p className="text-center text-xs text-urgency font-bold mt-3 animate-blink-urgent">
-            ⚠️ As vagas são limitadas e podem encerrar a qualquer momento
-          </p>
-        </section>
-        
-        <section className="mt-6 bg-card border-2 border-border rounded-2xl p-5 sm:p-6">
-          <ProgressBar />
-          <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
-            <Users className="h-3.5 w-3.5" />
-            Mais de <strong className="text-foreground">879 pessoas</strong> já estão aproveitando as ofertas
-          </p>
-        </section>
-
-        <section className="mt-8 bg-card border-2 border-urgency/30 rounded-2xl p-5 sm:p-6 shadow-glow">
-          <CountdownTimer />
-        </section>
-
-       
-
-        
-
-        <section className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-          <Shield className="h-4 w-4" />
-          <span>2026 Relâmpago de Ofertas - 100% gratuito</span>
-        </section>
-      </main>
-
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur border-t-2 border-border p-3 shadow-2xl">
-        <CTAButton />
-      </div>
-    </div>
-  );
-};
-
-export default Index;
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
