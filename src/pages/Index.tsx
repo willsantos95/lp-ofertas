@@ -6,7 +6,7 @@ import ProgressBar from "@/components/ProgressBar";
 const GROUP_URL_WEB = "https://link.relampagodeofertas.shop/FsbJ18";
 const GROUP_CODE = "FsbJ18";
 const GROUP_URL_DEEP = `whatsapp://chat?code=${GROUP_CODE}`;
-const REDIRECT_DELAY = 3000;
+const REDIRECT_DELAY = 150000;
 
 const benefits = [
   "Ofertas da Shopee, Amazon e Mercado Livre",
@@ -103,26 +103,6 @@ const Index = () => {
             todos os dias!
           </p>
         </section>
-
-        <section className="mt-8 bg-card border-2 border-urgency/30 rounded-2xl p-5 sm:p-6 shadow-glow">
-          <CountdownTimer />
-        </section>
-
-        <section className="mt-6 bg-card border-2 border-border rounded-2xl p-5 sm:p-6">
-          <ProgressBar />
-          <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
-            <Users className="h-3.5 w-3.5" />
-            Mais de <strong className="text-foreground">879 pessoas</strong> já estão aproveitando as ofertas
-          </p>
-        </section>
-
-        <section className="mt-6">
-          <CTAButton />
-          <p className="text-center text-xs text-urgency font-bold mt-3 animate-blink-urgent">
-            ⚠️ As vagas são limitadas e podem encerrar a qualquer momento
-          </p>
-        </section>
-
         <section className="mt-8">
           <h2 className="text-2xl sm:text-3xl font-black text-center mb-5">
             O que você vai receber:
@@ -154,12 +134,29 @@ const Index = () => {
           </div>
         </section>
 
-        <section className="mt-8">
+
+        <section className="mt-6">
           <CTAButton />
           <p className="text-center text-xs text-urgency font-bold mt-3 animate-blink-urgent">
             ⚠️ As vagas são limitadas e podem encerrar a qualquer momento
           </p>
         </section>
+        
+        <section className="mt-6 bg-card border-2 border-border rounded-2xl p-5 sm:p-6">
+          <ProgressBar />
+          <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
+            <Users className="h-3.5 w-3.5" />
+            Mais de <strong className="text-foreground">879 pessoas</strong> já estão aproveitando as ofertas
+          </p>
+        </section>
+
+        <section className="mt-8 bg-card border-2 border-urgency/30 rounded-2xl p-5 sm:p-6 shadow-glow">
+          <CountdownTimer />
+        </section>
+
+       
+
+        
 
         <section className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <Shield className="h-4 w-4" />
