@@ -1,11 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Check, Zap, Gift, TrendingDown, Users, Shield } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 import ProgressBar from "@/components/ProgressBar";
 
-const GROUP_URL_WEB = "https://link.relampagodeofertas.shop/FsbJ18";
-const GROUP_CODE = "120363423459629928@g.us";
-const GROUP_URL_DEEP = `whatsapp://chat?code=${GROUP_CODE}`;
 const REDIRECT_DELAY = 2500;
 
 const benefits = [
@@ -16,43 +13,73 @@ const benefits = [
   "Atualizações todos os dias",
 ];
 
+type GroupConfig = {
+  niche: string;
+  group_code: string;
+  web: string;
+  name: string;
+};
+
+const GROUPS: Record<string, GroupConfig> = {
+  fitness: {
+    niche: "fitness",
+    group_code: "120363409073356160@g.us",
+    web: "https://link.relampagodeofertas.shop/fitness",
+    name: "Grupo Fitness",
+  },
+  geral: {
+    niche: "geral",
+    group_code: "120363423459629928@g.us",
+    web: "https://link.relampagodeofertas.shop/geral",
+    name: "Relâmpago De Oferta",
+  },
+  bebe: {
+    niche: "bebe",
+    group_code: "120363426817887741@g.us",
+    web: "https://link.relampagodeofertas.shop/bebe",
+    name: "Grupo Bebê",
+  },
+  pet: {
+    niche: "pet",
+    group_code: "120363409724485922@g.us",
+    web: "https://link.relampagodeofertas.shop/fitness",
+    name: "Grupo Pet",
+  },
+};
+
 declare global {
   interface Window {
     fbq?: (...args: any[]) => void;
   }
 }
 
-function isMobile() {
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+function getNicheFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const id = (params.get("id") || "geral").trim().toLowerCase();
+  return GROUPS[id] ? id : "geral";
 }
 
-function trackLead() {
+function trackLead(niche?: string) {
   if (typeof window.fbq !== "undefined") {
     const eventId = `lead_${Date.now()}`;
 
     window.fbq("track", "Lead", {}, { eventID: eventId });
-    window.fbq("trackCustom", "CliqueWhatsApp", { destination: "grupo_vip" });
+    window.fbq("trackCustom", "CliqueWhatsApp", {
+      destination: niche || "geral",
+    });
   }
 }
 
-function redirectToWhatsApp() {
-  trackLead();
-
-  if (isMobile()) {
-    window.location.href = GROUP_URL_DEEP;
-
-    setTimeout(() => {
-      window.location.href = GROUP_URL_WEB;
-    }, 1500);
-  } else {
-    window.location.href = GROUP_URL_WEB;
-  }
-}
-
-const CTAButton = ({ className = "" }: { className?: string }) => (
+const CTAButton = ({
+  className = "",
+  onClick,
+}: {
+  className?: string;
+  onClick: () => void;
+}) => (
   <button
     type="button"
-    onClick={redirectToWhatsApp}
+    onClick={onClick}
     className={`inline-flex flex-col items-center justify-center gradient-cta text-whatsapp-foreground font-black rounded-2xl shadow-cta animate-pulse-cta hover:scale-105 transition-transform px-6 py-4 text-lg sm:text-xl w-full ${className}`}
   >
     <span className="flex items-center gap-2">
@@ -65,14 +92,38 @@ const CTAButton = ({ className = "" }: { className?: string }) => (
 );
 
 const Index = () => {
+  const [group, setGroup] = useState<GroupConfig | null>(null);
+
+  function redirectToWhatsApp() {
+    if (!group) return;
+
+    trackLead(group.niche);
+    window.location.href = group.web;
+  }
+
   useEffect(() => {
+    const niche = getNicheFromUrl();
+    setGroup(GROUPS[niche]);
+  }, []);
+
+  useEffect(() => {
+    if (!group) return;
+
     const timer = setTimeout(() => {
-      trackLead();
-      window.location.href = GROUP_URL_WEB;
+      trackLead(group.niche);
+      window.location.href = group.web;
     }, REDIRECT_DELAY);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [group]);
+
+  if (!group) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-4 text-center">
+        <p className="text-lg font-bold">Carregando grupo...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-32 md:pb-12">
@@ -90,26 +141,31 @@ const Index = () => {
           <h1 className="text-3xl sm:text-5xl font-black leading-tight tracking-tight">
             🔥 ENTRE AGORA NO{" "}
             <span className="bg-gradient-to-r from-urgency via-orange-500 to-highlight bg-clip-text text-transparent">
-              GRUPO RELÂMPAGO
-            </span>{" "}
-            DE OFERTAS!
+              {group.name.toUpperCase()}
+            </span>
           </h1>
 
           <p className="text-base sm:text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-            Participe do grupo de forma <strong className="text-foreground">gratuita</strong> e receba ofertas com até{" "}
+            Participe do grupo de forma{" "}
+            <strong className="text-foreground">gratuita</strong> e receba
+            ofertas com até{" "}
             <span className="bg-highlight text-highlight-foreground px-2 py-0.5 rounded font-black">
               90% de desconto
             </span>{" "}
             todos os dias!
           </p>
         </section>
+
         <section className="mt-8">
           <h2 className="text-2xl sm:text-3xl font-black text-center mb-5">
             O que você vai receber:
           </h2>
           <ul className="space-y-3 bg-card border-2 border-border rounded-2xl p-5 sm:p-6">
             {benefits.map((b) => (
-              <li key={b} className="flex items-start gap-3 text-base sm:text-lg font-medium">
+              <li
+                key={b}
+                className="flex items-start gap-3 text-base sm:text-lg font-medium"
+              >
                 <span className="flex-shrink-0 w-7 h-7 rounded-full bg-whatsapp text-whatsapp-foreground flex items-center justify-center mt-0.5">
                   <Check className="h-4 w-4" strokeWidth={3} />
                 </span>
@@ -134,14 +190,13 @@ const Index = () => {
           </div>
         </section>
 
-
         <section className="mt-6">
-          <CTAButton />
+          <CTAButton onClick={redirectToWhatsApp} />
           <p className="text-center text-xs text-urgency font-bold mt-3 animate-blink-urgent">
             ⚠️ As vagas são limitadas e podem encerrar a qualquer momento
           </p>
         </section>
-        
+
         <section className="mt-6 bg-card border-2 border-border rounded-2xl p-5 sm:p-6">
           <ProgressBar />
           <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
@@ -154,10 +209,6 @@ const Index = () => {
           <CountdownTimer />
         </section>
 
-       
-
-        
-
         <section className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <Shield className="h-4 w-4" />
           <span>2026 Relâmpago de Ofertas - 100% gratuito</span>
@@ -165,7 +216,7 @@ const Index = () => {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur border-t-2 border-border p-3 shadow-2xl">
-        <CTAButton />
+        <CTAButton onClick={redirectToWhatsApp} />
       </div>
     </div>
   );
