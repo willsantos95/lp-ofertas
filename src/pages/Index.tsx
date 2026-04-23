@@ -25,7 +25,7 @@ const GROUPS: Record<string, GroupConfig> = {
     niche: "fitness",
     group_code: "120363409073356160@g.us",
     web: "https://link.relampagodeofertas.shop/fitness",
-    name: "Grupo Fitness",
+    name: "Relâmpago de Ofertas - Fitness",
   },
   geral: {
     niche: "geral",
@@ -37,13 +37,13 @@ const GROUPS: Record<string, GroupConfig> = {
     niche: "bebe",
     group_code: "120363426817887741@g.us",
     web: "https://link.relampagodeofertas.shop/bebe",
-    name: "Grupo Bebê",
+    name: "Relâmpago de Ofertas - Bebê",
   },
   pet: {
     niche: "pet",
     group_code: "120363409724485922@g.us",
-    web: "https://link.relampagodeofertas.shop/fitness",
-    name: "Grupo Pet",
+    web: "https://link.relampagodeofertas.shop/pet",
+    name: "Relâmpago de Ofertas - Pet",
   },
 };
 
